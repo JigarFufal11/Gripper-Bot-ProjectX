@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gripper Bot Controller</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .controller-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 900px;
+      margin-top: 20px;
+    }
+
+    .direction-buttons-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .direction-buttons-left button {
+      width: 80px;
+      height: 80px;
+      font-size: 30px;
+      cursor: pointer;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      background-color: #333;
+      color: #fff;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      user-select: none;  /* Prevent text selection */
+    }
+
+    .gripper-arm-controls {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-direction: row;
+    }
+
+    .gripper-arm-controls .group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gripper-arm-controls button {
+      width: 120px;
+      height: 60px;
+      font-size: 18px;
+      cursor: pointer;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      background-color: #333;
+      color: #fff;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      user-select: none;  /* Prevent text selection */
+    }
+
+    .heading {
+      margin-bottom: 5px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .direction-buttons-right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .direction-buttons-right button {
+      width: 80px;
+      height: 80px;
+      font-size: 30px;
+      cursor: pointer;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      background-color: #333;
+      color: #fff;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      user-select: none;  /* Prevent text selection */
+    }
+
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .direction-buttons-left {
+        flex-direction: row;
+        gap: 20px;
+      }
+
+      .gripper-arm-controls {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .direction-buttons-right {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="controller-container">
+    <h1>Gripper Bot Controller</h1>
+
+    <!-- Controls -->
+    <div class="controls">
+      <!-- Left Controls: Forward and Backward -->
+      <div class="direction-buttons-left">
+        <button ontouchstart="sendCommand('FORWARD')" ontouchend="sendCommand('STOP')">&#8593;</button> <!-- Up Arrow -->
+        <button ontouchstart="sendCommand('BACKWARD')" ontouchend="sendCommand('STOP')">&#8595;</button> <!-- Down Arrow -->
+      </div>
+
+      <!-- Gripper and Arm Controls in Center -->
+      <div class="gripper-arm-controls">
+        <!-- Gripper -->
+        <div class="group">
+          <div class="heading">Gripper</div>
+          <button ontouchstart="sendCommand('Open')">Open</button>
+          <button ontouchstart="sendCommand('Close')">Close</button>
+        </div>
+
+        <!-- Arm -->
+        <div class="group">
+          <div class="heading">Arm</div>
+          <button ontouchstart="sendCommand('Up')">Up</button>
+          <button ontouchstart="sendCommand('Down')">Down</button>
+        </div>
+      </div>
+
+      <!-- Right Controls: Left and Right -->
+      <div class="direction-buttons-right">
+        <button ontouchstart="sendCommand('RIGHT')" ontouchend="sendCommand('STOP')">&#8592;</button> <!-- Left Arrow -->
+        <button ontouchstart="sendCommand('LEFT')" ontouchend="sendCommand('STOP')">&#8594;</button> <!-- Right Arrow -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function sendCommand(command) {
+      fetch('/?Command=' + command)
+        .then(response => console.log('Sent: ' + command))
+        .catch(err => alert('Failed to send'));
+    }
+  </script>
+</body>
+</html>
